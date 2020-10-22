@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FootballProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdminEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer_To_Stadion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StadionId" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="int" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reports">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rezervs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="StadionId" Type="int" Nullable="false" />
+    <Property Name="RoomId" Type="int" Nullable="false" />
+    <Property Name="ReportId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Stadions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Customer_To_Stadion_Customers">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="Customer_To_Stadion" Type="Self.Customer_To_Stadion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customer_To_Stadion">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customer_To_Stadion_Stadions">
+    <End Role="Stadions" Type="Self.Stadions" Multiplicity="1" />
+    <End Role="Customer_To_Stadion" Type="Self.Customer_To_Stadion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stadions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customer_To_Stadion">
+        <PropertyRef Name="StadionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezervs_Reports">
+    <End Role="Reports" Type="Self.Reports" Multiplicity="1" />
+    <End Role="Rezervs" Type="Self.Rezervs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reports">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rezervs">
+        <PropertyRef Name="ReportId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezervs_Rooms">
+    <End Role="Rooms" Type="Self.Rooms" Multiplicity="1" />
+    <End Role="Rezervs" Type="Self.Rezervs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rooms">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rezervs">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezervs_Stadions">
+    <End Role="Stadions" Type="Self.Stadions" Multiplicity="1" />
+    <End Role="Rezervs" Type="Self.Rezervs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stadions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rezervs">
+        <PropertyRef Name="StadionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FootballProjectModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer_To_Stadion" EntityType="Self.Customer_To_Stadion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rezervs" EntityType="Self.Rezervs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Stadions" EntityType="Self.Stadions" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Customer_To_Stadion_Customers" Association="Self.FK_Customer_To_Stadion_Customers">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Customer_To_Stadion" EntitySet="Customer_To_Stadion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customer_To_Stadion_Stadions" Association="Self.FK_Customer_To_Stadion_Stadions">
+      <End Role="Stadions" EntitySet="Stadions" />
+      <End Role="Customer_To_Stadion" EntitySet="Customer_To_Stadion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezervs_Reports" Association="Self.FK_Rezervs_Reports">
+      <End Role="Reports" EntitySet="Reports" />
+      <End Role="Rezervs" EntitySet="Rezervs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezervs_Rooms" Association="Self.FK_Rezervs_Rooms">
+      <End Role="Rooms" EntitySet="Rooms" />
+      <End Role="Rezervs" EntitySet="Rezervs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezervs_Stadions" Association="Self.FK_Rezervs_Stadions">
+      <End Role="Stadions" EntitySet="Stadions" />
+      <End Role="Rezervs" EntitySet="Rezervs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
